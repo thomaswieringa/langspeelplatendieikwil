@@ -2,13 +2,13 @@ import scrapy
 from scrapy.selector import Selector
 
 
-class ReleaseScraperSpider(scrapy.Spider):
+class MarketPlaceSpider(scrapy.Spider):
     name = 'marketplace'
     allowed_domains = ['www.discogs.com']
 
     def start_requests(self):
         yield scrapy.Request('https://www.discogs.com/sell/list?sort=listed%2Cdesc&limit=250&q={}&page=1'
-                           .format(self.release_id))
+                             .format(self.release_id))
 
     def parse(self, response):
         records = response.xpath('//tbody/tr').getall()
@@ -25,6 +25,7 @@ class ReleaseScraperSpider(scrapy.Spider):
                 'shipping': Selector(text=listing).xpath('body/tr/td[5]/span[2]/text()').get(),
             }
             yield item
+        # todo: implement scraping next page functionality. Not really needed since a page contains 250 items.
         # item_sleeve_condition
         # next_page = response.css('').get()
         # if next_page is not None:
