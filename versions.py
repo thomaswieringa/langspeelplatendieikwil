@@ -10,6 +10,11 @@ class Versions:
         self.headers = {"Authorization": "Discogs token={}".format(self.key)}
 
     def all_versions(self, master_id):
+        """
+        Returns all vinyl versions of a master
+        :param master_id: id of the master we want the versions for
+        :return: list of the releases
+        """
         url = "https://api.discogs.com/masters/{}/versions".format(int(master_id))
         versions = []
         page = 1
@@ -26,12 +31,22 @@ class Versions:
             page += 1
 
     def add_all_versions(self, master_id):
+        """
+        Adds all versions of a master to the wantlist in discogs
+        :param master_id:
+        :return:
+        """
         all_versions = self.all_versions(master_id)
         for version in all_versions:
             self.add(version['id'])
         print("added all versions to want list")
 
     def add(self, release_id):
+        """
+        Adds a release to the wantlist in discogs
+        :param release_id:
+        :return:
+        """
         url = 'https://api.discogs.com/users/{}/wants/{}'.format(self.user, release_id)
         requests.put(url=url, headers=self.headers)
         print("added release")
