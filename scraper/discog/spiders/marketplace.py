@@ -14,15 +14,16 @@ class MarketPlaceSpider(scrapy.Spider):
         records = response.xpath('//tbody/tr').getall()
         for listing in records:
             item = {
-                'title': Selector(text=listing).xpath('body/tr/td[2]/strong/a/text()').get(),
+                'title': Selector(text=listing).xpath('body/tr/td[2]/strong/a/text()').get().strip(),
                 'release_id': self.release_id,
-                'link': Selector(text=listing).xpath('body/tr/td[2]/strong/a/@href').get(),
-                'media_condition': Selector(text=listing).xpath('//p[@class="item_condition"]/span[3]/text()').get(),
-                'sleeve_condition': Selector(text=listing).xpath('//span[@class="item_sleeve_condition"]/text()').get(),
-                'seller': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/text()').get(),
-                'seller_link': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/@href').get(),
-                'price': Selector(text=listing).xpath('body/tr/td[5]/span[1]/text()').get(),
-                'shipping': Selector(text=listing).xpath('body/tr/td[5]/span[2]/text()').get(),
+                'master_id': self.master_id,
+                'link': Selector(text=listing).xpath('body/tr/td[2]/strong/a/@href').get().strip(),
+                'media_condition': Selector(text=listing).xpath('//p[@class="item_condition"]/span[3]/text()').get().strip(),
+                'sleeve_condition': Selector(text=listing).xpath('//span[@class="item_sleeve_condition"]/text()').get().strip(),
+                'seller': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/text()').get().strip(),
+                'seller_link': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/@href').get().strip(),
+                'price': Selector(text=listing).xpath('body/tr/td[5]/span[1]/text()').get().strip(),
+                'shipping': Selector(text=listing).xpath('body/tr/td[5]/span[2]/text()').get().strip(),
             }
             yield item
         # todo: implement scraping next page functionality. Not really needed since a page contains 250 items.
