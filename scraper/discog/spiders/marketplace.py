@@ -3,7 +3,7 @@ from scrapy.selector import Selector
 
 
 class ReleaseScraperSpider(scrapy.Spider):
-    name = 'release_scraper'
+    name = 'marketplace'
     allowed_domains = ['www.discogs.com']
 
     def start_requests(self):
