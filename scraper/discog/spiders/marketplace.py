@@ -7,8 +7,10 @@ class MarketPlaceSpider(scrapy.Spider):
     allowed_domains = ['www.discogs.com']
 
     def start_requests(self):
-        yield scrapy.Request('https://www.discogs.com/sell/list?sort=listed%2Cdesc&limit=250&q={}&page=1'
+        yield scrapy.Request('https://www.discogs.com/sell/release/{}?sort=price%2Casc&limit=250&ev=rb&page=1'
                              .format(self.release_id))
+        # yield scrapy.Request('https://www.discogs.com/sell/list?sort=listed%2Cdesc&limit=250&q={}&page=1'
+        #                      .format(self.release_id))
 
     def parse(self, response):
         records = response.xpath('//tbody/tr').getall()
