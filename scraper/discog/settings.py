@@ -44,9 +44,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'scraper.middlewares.DiscogsscraperSpiderMiddleware': 543,
-#}
+# SPIDER_MIDDLEWARES = {
+#    'discog.middlewares.DiscogsscraperSpiderMiddleware': 543,
+# }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -64,9 +64,9 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-# ITEM_PIPELINES = {
-#     'myproject.pipelines.AzureSQLPipeline': 300,
-# }
+ITEM_PIPELINES = {
+    'discog.pipelines.AzureSQLPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
