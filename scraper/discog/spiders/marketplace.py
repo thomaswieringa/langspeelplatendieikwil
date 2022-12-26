@@ -4,22 +4,30 @@ import re
 
 
 def separate_currency(string):
+    print('string:{}'.format(string))
+    # we remove any + signs
+    string = string.replace("+", "")
     # Use a regular expression to extract the currency sign and the amount
     match = re.search(r'([^\d^\.]+)(\d+\.\d+)', string)
     if not match:
-        raise ValueError("Invalid currency string")
+        if 'no extra shipping' in string:
+            return 0, 'FREE'
+        else:
+            raise ValueError("Invalid currency string")
 
     # Extract the currency sign and the amount
     currency_sign = match.group(1)
     amount = float(match.group(2))
-
     # Map the currency sign to the corresponding ISO code
     currency_mapping = {
         '$': 'USD',
         '€': 'EUR',
         '£': 'GBP',
-        '¥': 'JPY'
+        '¥': 'JPY',
+        'CA$': 'CAD',
+        'A$': "AUD"
     }
+    print('currency_sign:{}'.format(currency_sign))
     if currency_sign not in currency_mapping:
         raise ValueError("Unsupported currency")
     currency_code = currency_mapping[currency_sign]
@@ -34,12 +42,11 @@ class MarketPlaceSpider(scrapy.Spider):
     def start_requests(self):
         yield scrapy.Request('https://www.discogs.com/sell/release/{}?sort=price%2Casc&limit=250&ev=rb&page=1'
                              .format(self.release_id))
-        # yield scrapy.Request('https://www.discogs.com/sell/list?sort=listed%2Cdesc&limit=250&q={}&page=1'
-        #                      .format(self.release_id))
 
     def parse(self, response):
         records = response.xpath('//tbody/tr').getall()
         for listing in records:
+            available = Selector(text=listing).xpath('//a[@class="button button-green cart-button "]').get() is not None
             item = {
                 'title': Selector(text=listing).xpath('body/tr/td[2]/strong/a/text()').get().strip(),
                 'release_id': self.release_id,
@@ -49,10 +56,12 @@ class MarketPlaceSpider(scrapy.Spider):
                 'sleeve_condition': Selector(text=listing).xpath('//span[@class="item_sleeve_condition"]/text()').get().strip(),
                 'seller': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/text()').get().strip(),
                 'seller_link': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/@href').get().strip(),
+                'ships_from': Selector(text=listing).xpath('body/tr/td[3]/ul/li[3]/text()').get().strip(),
                 'price': separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[1]/text()').get().strip())[0],
                 'price_currency': separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[1]/text()').get().strip())[1],
                 'shipping': separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[2]/text()').get().strip())[0],
                 'shipping_currency':separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[2]/text()').get().strip())[1],
+                'available': int(available)
             }
             yield item
         # todo: implement scraping next page functionality. Not really needed since a page contains 250 items.
