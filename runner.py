@@ -1,4 +1,4 @@
-from versions import Versions
+from scraper.discog.discogs_versions import Versions
 from watchlist_manager import WatchlistManager
 
 versions = Versions(key="IjDxhwugeqUVGtMZuJZQqCazFHdMQXKrZOTesFTj",

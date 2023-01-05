@@ -2,7 +2,7 @@ import requests
 import json
 
 
-class Versions:
+class DiscogsVersions:
 
     def __init__(self, key, user):
         self.key = key
