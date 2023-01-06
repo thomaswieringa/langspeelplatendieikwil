@@ -52,3 +52,4 @@ for i in range(len(sorted)):
     print("average ppr = {}".format(sum([x['price'] for x in sorted[i]['best deals']])/len(sorted[i]['best deals'])))
     print(sorted[i])
 
+
