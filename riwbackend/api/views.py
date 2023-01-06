@@ -6,7 +6,7 @@ from .serializers import MasterSerializer
 
 class WantsView(generics.ListAPIView):
     """
-    View that for listing and creating all capacity templates of a user.
+    View that listing all wants of a user
     """
     serializer_class = MasterSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -18,3 +18,12 @@ class WantsView(generics.ListAPIView):
         """
         user = self.request.user
         return Master.objects.filter(user=user)
+
+
+class WantDelete(generics.DestroyAPIView):
+    """
+    View that deleting a want by its id
+    """
+    serializer_class = MasterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Master.objects.all()
