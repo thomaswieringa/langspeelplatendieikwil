@@ -21,3 +21,28 @@ class Master(models.Model):
     def __str__(self):
         return "{} - {}".format(self.title, self.artist)
 
+
+class Offer(models.Model):
+    """
+    Model for a record offer.
+    """
+    master = models.ForeignKey(Master, on_delete=models.DO_NOTHING)
+    title = models.CharField(max_length=1000)
+    seller = models.CharField(max_length=1000)
+    seller_url = models.CharField(max_length=1000)
+    media_condition = models.CharField(max_length=100)
+    sleeve_condition = models.CharField(max_length=100)
+    price = models.FloatField()
+    shipping = models.FloatField()
+    currency = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    image_url = models.CharField(max_length=100)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.title
+
+
