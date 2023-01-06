@@ -16,6 +16,7 @@ con = pyodbc.connect('DRIVER=' + driver + ';'
 
 # Connect to the database and read the table into a DataFrame
 df = pd.read_sql("SELECT * FROM MarketPlace", con)
+df.to_csv("data.csv")
 df = df[df['Available']]
 df = df[df['PriceCurrency'] == 'EUR']
 df = df[df['ShipsFrom'].isin(['Netherlands', 'Germany', 'Belgium', 'France', 'Italy', 'Spain'])]
