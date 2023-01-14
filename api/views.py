@@ -53,15 +53,3 @@ class AddMaster(APIView):
             )
             master.save()
             return Response("added master succesfully!!")
-
-# #   master_id = models.IntegerField()
-#     title = models.CharField(max_length=100)
-#     artist = models.CharField(max_length=100)
-#     genre = models.CharField(max_length=100)
-#     year = models.IntegerField()
-#     discogs_url = models.CharField(max_length=100)
-#     image_url = models.CharField(max_length=100)
-#     user = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#     )
