@@ -5,8 +5,9 @@
 
 import scrapy
 
+from scrapy_djangoitem import DjangoItem
+from api.models import Offer
 
-class DiscogsscraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+
+class DiscogsScraperItem(DjangoItem):
+    django_model = Offer

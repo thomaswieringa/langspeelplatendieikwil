@@ -7,7 +7,15 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'scraper'
+import os
+import sys
+import django
+
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".."))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.backend.settings'
+
+django.setup()
+BOT_NAME = 'discog'
 
 SPIDER_MODULES = ['discog.spiders']
 NEWSPIDER_MODULE = 'discog.spiders'
@@ -65,7 +73,7 @@ CONCURRENT_REQUESTS_PER_IP = 16
 
 
 ITEM_PIPELINES = {
-    'discog.pipelines.AzureSQLPipeline': 300,
+    'discog.pipelines.ScrapyItemPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

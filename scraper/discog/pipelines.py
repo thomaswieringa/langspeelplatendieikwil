@@ -40,3 +40,10 @@ class AzureSQLPipeline:
         )
         self.conn.commit()
         return item
+
+
+class ScrapyItemPipeline(object):
+
+    def process_item(self, item, spider):
+        item.save()
+        return item

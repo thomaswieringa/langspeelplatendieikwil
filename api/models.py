@@ -12,7 +12,6 @@ class Master(models.Model):
     genre = models.CharField(max_length=100)
     year = models.IntegerField()
     discogs_url = models.CharField(max_length=100)
-    image_url = models.CharField(max_length=100)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -27,6 +26,7 @@ class Offer(models.Model):
     Model for a record offer.
     """
     master = models.ForeignKey(Master, on_delete=models.DO_NOTHING)
+    url = models.CharField(max_length=1000)
     title = models.CharField(max_length=1000)
     seller = models.CharField(max_length=1000)
     seller_url = models.CharField(max_length=1000)
@@ -44,5 +44,3 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.title
-
-
