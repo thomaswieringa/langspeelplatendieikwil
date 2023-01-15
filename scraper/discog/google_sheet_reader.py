@@ -1,6 +1,6 @@
 import gspread
 import pandas as pd
-from google.oauth2.credentials import Credentials
+import requests
 
 
 def get_sheet():
@@ -19,3 +19,14 @@ def get_sheet():
     df = df[1:]
     # Print the dataframe to verify that it was correctly read
     return df
+
+
+from requests.auth import HTTPBasicAuth
+import time
+
+df = get_sheet()
+for master_id in df['master_id']:
+    time.sleep(3)
+    print(master_id)
+    response = requests.post('http://127.0.0.1:8000/api/add-master/{}'.format(master_id), auth=HTTPBasicAuth('tho', '123'))
+    print(response.text)

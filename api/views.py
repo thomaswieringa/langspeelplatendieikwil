@@ -7,6 +7,7 @@ from .serializers import MasterSerializer
 
 import requests
 
+
 class WantsView(generics.ListAPIView):
     """
     View that listing all wants of a user

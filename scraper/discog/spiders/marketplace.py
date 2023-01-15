@@ -52,7 +52,7 @@ class MarketPlaceSpider(scrapy.Spider):
         print('master df')
         print(master_df)
         #for master_id in master_df['master_id']:
-        print("KAOLO")
+
         print(master_df)
         master_id = master_df['master_id'].iloc[0]
         for release_id in discogs_versions.all_versions(master_id):
@@ -85,34 +85,3 @@ class MarketPlaceSpider(scrapy.Spider):
         # if next_page is not None:
         #     next_page = response.urljoin(next_page)
         #     yield scrapy.Request(next_page, callback=self.parse)
-
-   master = models.ForeignKey(Master, on_delete=models.DO_NOTHING)
-    title = models.CharField(max_length=1000)
-    seller = models.CharField(max_length=1000)
-    seller_url = models.CharField(max_length=1000)
-    media_condition = models.CharField(max_length=100)
-    sleeve_condition = models.CharField(max_length=100)
-    price = models.FloatField()
-    shipping = models.FloatField()
-    currency = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    image_url = models.CharField(max_length=100)
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-    )
-
-'title': Selector(text=listing).xpath('body/tr/td[2]/strong/a/text()').get().strip(),
-'release_id': release_id,
-'master_id': master_id,
-'link': Selector(text=listing).xpath('body/tr/td[2]/strong/a/@href').get().strip(),
-'media_condition': Selector(text=listing).xpath('//p[@class="item_condition"]/span[3]/text()').get().strip(),
-'sleeve_condition': Selector(text=listing).xpath('//span[@class="item_sleeve_condition"]/text()').get().strip(),
-'seller': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/text()').get().strip(),
-'seller_link': Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/@href').get().strip(),
-'ships_from': Selector(text=listing).xpath('body/tr/td[3]/ul/li[3]/text()').get().strip(),
-'price': separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[1]/text()').get().strip())[0],
-'price_currency': separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[1]/text()').get().strip())[1],
-'shipping': separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[2]/text()').get().strip())[0],
-'shipping_currency': separate_currency(Selector(text=listing).xpath('body/tr/td[5]/span[2]/text()').get().strip())[1],
-'available': int(available)
