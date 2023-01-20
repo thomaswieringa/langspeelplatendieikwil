@@ -48,7 +48,7 @@ class MarketPlaceSpider(scrapy.Spider):
         master_df = get_sheet()
         # then we initialize the discogs class to be able to get all versions
         discogs_versions = DiscogsVersions(key="IjDxhwugeqUVGtMZuJZQqCazFHdMQXKrZOTesFTj",
-                            user="thomaswieringa")
+                                           user="thomaswieringa")
         print('master df')
         print(master_df)
         #for master_id in master_df['master_id']:

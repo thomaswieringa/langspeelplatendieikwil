@@ -21,12 +21,12 @@ def get_sheet():
     return df
 
 
-from requests.auth import HTTPBasicAuth
-import time
-
-df = get_sheet()
-for master_id in df['master_id']:
-    time.sleep(3)
-    print(master_id)
-    response = requests.post('http://127.0.0.1:8000/api/add-master/{}'.format(master_id), auth=HTTPBasicAuth('tho', '123'))
-    print(response.text)
+# from requests.auth import HTTPBasicAuth
+# import time
+#
+# df = get_sheet()
+# for master_id in df['master_id']:
+#     time.sleep(3)
+#     print(master_id)
+#     response = requests.post('http://127.0.0.1:8000/api/add-master/{}'.format(master_id), auth=HTTPBasicAuth('tho', '123'))
+#     print(response.text)
