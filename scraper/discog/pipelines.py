@@ -6,8 +6,16 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-import pyodbc
 
+
+class ScrapyItemPipeline(object):
+
+    def process_item(self, item, spider):
+        item.save()
+        return item
+
+
+import pyodbc
 
 class AzureSQLPipeline:
 
@@ -41,9 +49,3 @@ class AzureSQLPipeline:
         self.conn.commit()
         return item
 
-
-class ScrapyItemPipeline(object):
-
-    def process_item(self, item, spider):
-        item.save()
-        return item
