@@ -17,8 +17,8 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.backend.settings'
 django.setup()
 BOT_NAME = 'discog'
 
-SPIDER_MODULES = ['discog.spiders']
-NEWSPIDER_MODULE = 'discog.spiders'
+SPIDER_MODULES = ['scraper.discog.spiders']
+NEWSPIDER_MODULE = 'scraper.discog.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -73,7 +73,7 @@ CONCURRENT_REQUESTS_PER_IP = 16
 
 
 ITEM_PIPELINES = {
-    'discog.pipelines.ScrapyItemPipeline': 300,
+    'scraper.discog.pipelines.ScrapyItemPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

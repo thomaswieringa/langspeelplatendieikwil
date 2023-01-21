@@ -3,8 +3,6 @@
 import os
 import django
 
-from scraper.discog.spiders.marketplace import MarketPlaceSpider
-
 os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.backend.settings'
 django.setup()
 from django.contrib.auth.models import User
@@ -13,7 +11,7 @@ from api.models import Offer
 os.environ['SCRAPY_SETTINGS_MODULE'] = 'scraper.discog.settings'
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
-
+from scraper.discog.spiders.marketplace import MarketPlaceSpider
 
 
 USER_ID = 2
