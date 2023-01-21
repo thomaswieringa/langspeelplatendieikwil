@@ -44,22 +44,15 @@ class MarketPlaceSpider(scrapy.Spider):
     allowed_domains = ['www.discogs.com']
 
     def start_requests(self):
-        # we load the master id'd from sheets
-        master_df = get_sheet()
         # then we initialize the discogs class to be able to get all versions
         discogs_versions = DiscogsVersions(key="IjDxhwugeqUVGtMZuJZQqCazFHdMQXKrZOTesFTj",
                                            user="thomaswieringa")
-        print('master df')
-        print(master_df)
-        #for master_id in master_df['master_id']:
-
-        print(master_df)
-        master_id = master_df['master_id'].iloc[0]
-        for release_id in discogs_versions.all_versions(master_id):
-            print('searching release id: {}'.format(release_id['id']))
-            yield scrapy.Request('https://www.discogs.com/sell/release/{}?sort=price%2Casc&limit=250&ev=rb&page=1'
-                                 .format(release_id['id']),
-                                 cb_kwargs={'master_id': master_id, 'release_id': release_id['id']})
+        for master in self.masters:
+            for release_id in discogs_versions.all_versions(master.id):
+                print('searching release id: {}'.format(release_id['id']))
+                yield scrapy.Request('https://www.discogs.com/sell/release/{}?sort=price%2Casc&limit=250&ev=rb&page=1'
+                                     .format(release_id['id']),
+                                     cb_kwargs={'master': master, 'release_id': release_id['id']})
 
     def parse(self, response, master, release_id):
         records = response.xpath('//tbody/tr').getall()
