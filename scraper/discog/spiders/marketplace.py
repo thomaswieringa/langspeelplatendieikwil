@@ -48,7 +48,7 @@ class MarketPlaceSpider(scrapy.Spider):
         discogs_versions = DiscogsVersions(key="IjDxhwugeqUVGtMZuJZQqCazFHdMQXKrZOTesFTj",
                                            user="thomaswieringa")
         for master in self.masters:
-            for release_id in discogs_versions.all_versions(master.id):
+            for release_id in discogs_versions.all_versions(master.master_id):
                 print('searching release id: {}'.format(release_id['id']))
                 yield scrapy.Request('https://www.discogs.com/sell/release/{}?sort=price%2Casc&limit=250&ev=rb&page=1'
                                      .format(release_id['id']),
@@ -59,6 +59,7 @@ class MarketPlaceSpider(scrapy.Spider):
         for listing in records:
             item = DiscogsScraperItem()
             item['master'] = master
+            item['user'] = master.user
             item['title'] = Selector(text=listing).xpath('body/tr/td[2]/strong/a/text()').get().strip()
             item['seller'] = Selector(text=listing).xpath('body/tr/td[3]/ul/li[1]/div/strong/a/text()').get().strip()
             item['seller_url'] = "https://www.discogs.com" + Selector(text=listing).xpath(
