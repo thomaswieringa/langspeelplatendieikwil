@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".."))
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "../.."))
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,12 +77,34 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+
+
+MIDDLEWARE = MIDDLEWARE + [
+    'whitenoise.middleware.WhiteNoiseMiddleware'
+]
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# DBHOST is only the server name, not the full URL
+hostname = os.environ['DBHOST']
+
+# Configure Postgres database; the full username for PostgreSQL flexible server is
+# username (not @sever-name).
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DBNAME'],
+        'HOST': hostname + ".postgres.database.azure.com",
+        'USER': os.environ['DBUSER'],
+        'PASSWORD': os.environ['DBPASS']
     }
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
