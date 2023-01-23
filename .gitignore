@@ -1,3 +1,4 @@
 venv
+*.sqlite3
 
 scraper/project.egg-info
