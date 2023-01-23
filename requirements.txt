@@ -4,3 +4,4 @@ django-cors-headers
 pandas
 whitenoise
 psycopg2-binary
+requests
